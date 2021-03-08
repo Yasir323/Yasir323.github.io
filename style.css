@@ -1,0 +1,48 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #1f2235;
+    font-family: "Baloo Tamma 2", cursive;
+}
+
+.m-heading {
+    font-family: "Baloo Tamma 2", monospace, serif;
+}
+
+.navigation-link {
+    border: 2px solid transparent;
+}
+
+.navigation-link:hover {
+    text-decoration: none;
+    border-bottom: 2px solid #f5ba09;
+    transition: 0.5s ease;
+}
+
+#about {
+    background: #313552;
+    border-radius: 0.5rem;
+    margin-bottom: 25px;
+}
+#projects {
+    background: #313552;
+    border-radius: 0.5rem;
+    margin-bottom: 10%;
+    padding-bottom: 25px;
+}
+
+.fab:hover{
+    text-decoration: none;
+}
+
+.content-section {
+    background: #313552;
+    border-radius: 0.5rem;
+}
+
+.card-img-top {
+    height: 200px;
+}
+
