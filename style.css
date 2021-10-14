@@ -52,5 +52,9 @@ body {
 }
 
 .card-title {
-    background-color: rgba(45, 45, 45, 0.1);
+    text-align: center;
+}
+
+.card-text {
+    line-height: 1em;
 }
