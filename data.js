@@ -76,11 +76,11 @@ window.PORTFOLIO = {
   blog: {
     url: "https://yasir323.hashnode.dev",
     posts: [
-      { title: "Choosing a Primary Key: A Tour of the IDs Real Systems Actually Use", date: "Sep 2026", url: "https://yasir323.hashnode.dev/choosing-a-primary-key-a-tour-of-the-ids-real-systems-actually-use" },
-      { title: "Picking the Right UUID Version (So Your Database Doesn't Hate You)", date: "Sep 2026", url: "https://yasir323.hashnode.dev/picking-the-right-uuid-version-so-your-database-doesn-t-hate-you" },
-      { title: "Tap, Tap, Charged Twice: The Idempotency-Key Pattern", date: "Jun 2026", url: "https://yasir323.hashnode.dev/idempotency-key-pattern-python" },
-      { title: "The Transactional Outbox Pattern in Python: Solving the Dual-Write Problem", date: "Jun 2026", url: "https://yasir323.hashnode.dev/transactional-outbox-pattern-python" },
-      { title: "The Heap That Wouldn't Sit Still", date: "Jun 2026", url: "https://yasir323.hashnode.dev/the-heap-that-wouldn-t-sit-still" },
+      { title: "Choosing a Primary Key: A Tour of the IDs Real Systems Actually Use", date: "2026-09-14", url: "https://yasir323.hashnode.dev/choosing-a-primary-key-a-tour-of-the-ids-real-systems-actually-use" },
+      { title: "Picking the Right UUID Version (So Your Database Doesn't Hate You)", date: "2026-09-14", url: "https://yasir323.hashnode.dev/picking-the-right-uuid-version-so-your-database-doesn-t-hate-you" },
+      { title: "Tap, Tap, Charged Twice: The Idempotency-Key Pattern", date: "2026-06-27", url: "https://yasir323.hashnode.dev/idempotency-key-pattern-python" },
+      { title: "The Transactional Outbox Pattern in Python: Solving the Dual-Write Problem", date: "2026-06-26", url: "https://yasir323.hashnode.dev/transactional-outbox-pattern-python" },
+      { title: "The Heap That Wouldn't Sit Still", date: "2026-06-21", url: "https://yasir323.hashnode.dev/the-heap-that-wouldn-t-sit-still" },
     ],
   },
   education: [
