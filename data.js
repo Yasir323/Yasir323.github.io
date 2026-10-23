@@ -4,16 +4,18 @@ window.PORTFOLIO = {
   handle: "yasir",
   role: "Senior Software Engineer · Backend & Distributed Systems",
   location: "Delhi, India",
+  // "{years}" anywhere in text is replaced with full years since this date, e.g. "5+".
+  careerStart: "2021-01-01",
   stats: [
-    { value: "5+", label: "years shipping backends" },
     { value: "1M+", label: "users on systems I own" },
-    { value: "100K+", label: "vehicles tracked live" },
-    { value: "<100ms", label: "API latency, down from 2–3s" },
+    { value: "25×", label: "faster critical APIs" },
+    { value: "55%", label: "lower AWS dev-environment cost" },
+    { value: "50%", label: "faster incident resolution" },
   ],
   source: "https://github.com/Yasir323/Yasir323.github.io",
   tagline: "I design, build, and operate high-traffic backend systems in Python and Go, on AWS.",
   about: [
-    "Senior Software Engineer with 5+ years building mission-critical backend services. I've been the sole owner of greenfield platforms serving 1M+ users and 100K+ concurrent entities.",
+    "Senior Software Engineer with {years} years building mission-critical backend services. I've been the sole owner of greenfield platforms serving 1M+ users and 100K+ concurrent entities.",
     "Most of my work sits in event-driven microservices, real-time stream processing with Kafka, and payments workflows that need strict reliability guarantees. I also ship Flutter frontends when the job calls for it.",
     "I mentor engineers, drive system-design decisions, and write about backend reliability on my blog.",
   ],
@@ -33,6 +35,8 @@ window.PORTFOLIO = {
       highlights: [
         "Architected a medallion data pipeline (Kafka, S3, Spark, Redshift) for a multi-tenant analytics platform at sub-100ms p90 query latency.",
         "Built a multi-tenant onboarding platform on AWS with RBAC, sustaining sub-200ms p90 API latency under load.",
+        "Cut the dev environment's monthly AWS cost by 55% (80K to 36K).",
+        "Halved incident resolution time by integrating distributed traces across microservices.",
         "Set up end-to-end CI/CD and review standards across 5 projects and a 4-engineer team.",
       ],
     },
@@ -91,7 +95,7 @@ window.PORTFOLIO = {
     ],
   },
   education: [
-    { degree: "M.Tech, Electrical Engineering", school: "Jamia Millia Islamia", period: "2018 – 2020", note: "GPA 9.43, Gold Medalist" },
+    { degree: "M.Tech, Electrical Engineering", school: "Jamia Millia Islamia", period: "2018 – 2020", note: "GPA 9.43", award: "Gold Medalist" },
     { degree: "B.Tech, Electrical Engineering", school: "Jamia Millia Islamia", period: "2013 – 2017", note: "GPA 8.61" },
   ],
   contact: {

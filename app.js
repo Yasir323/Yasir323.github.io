@@ -6,6 +6,8 @@
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text || url)}</a>`;
   const span = (cls, text) => `<span class="${cls}">${esc(text)}</span>`;
+  const years = Math.floor((Date.now() - new Date(D.careerStart)) / (365.25 * 864e5)) + "+";
+  const fill = (s) => String(s).replace(/\{years\}/g, years);
   const fmtMonth = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" });
 
   // ---------- Mode switching ----------
@@ -92,7 +94,7 @@
     const n = (i) => String(i).padStart(2, "0");
     const sections = [
       ["about", "About", `
-        <div class="s-prose">${D.about.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`],
+        <div class="s-prose">${D.about.map((p) => `<p>${esc(fill(p))}</p>`).join("")}</div>`],
       ["experience", "Experience", `
         <ol class="s-timeline">
           ${D.experience.map((e) => `
@@ -137,7 +139,7 @@
               <p class="s-period">${esc(e.period)}</p>
               <div>
                 <h3>${esc(e.degree)}</h3>
-                <p class="s-company">${esc(e.school)} · ${esc(e.note)}</p>
+                <p class="s-company">${esc(e.school)} · ${esc(e.note)}${e.award ? ` <span class="s-award">${esc(e.award)}</span>` : ""}</p>
               </div>
             </li>`).join("")}
         </ol>`],
@@ -231,7 +233,7 @@
       span("c-dim", `> ${D.role}`),
       span("c-dim", `> ${D.location}`),
       "",
-      ...D.about.map(esc).join("\n\n").split("\n"),
+      ...D.about.map((p) => esc(fill(p))).join("\n\n").split("\n"),
     ].join("\n"),
 
     projects: () => {
@@ -280,7 +282,8 @@
       `- ${span("c-blue", "degree")}: ${esc(e.degree)}\n` +
       `  ${span("c-blue", "school")}: ${esc(e.school)}\n` +
       `  ${span("c-blue", "period")}: ${esc(e.period)}\n` +
-      `  ${span("c-blue", "note")}:   ${esc(e.note)}`
+      `  ${span("c-blue", "note")}:   ${esc(e.note)}` +
+      (e.award ? `\n  ${span("c-blue", "award")}:  ${span("c-yellow", e.award)}` : "")
     ).join("\n"),
 
     contact: () => {

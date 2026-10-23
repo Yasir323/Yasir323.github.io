@@ -189,6 +189,10 @@ body.term-max { overflow: hidden; }
 .s-period { margin: 4px 0 0; font-size: 13px; color: var(--s-dim); font-variant-numeric: tabular-nums; }
 .s-job h3 { font-size: 1.6rem; line-height: 1.2; }
 .s-company { margin: 2px 0 12px; color: var(--s-accent); font-size: 15px; }
+.s-award {
+  display: inline-block; margin-left: 6px; padding: 1px 10px; border: 1px solid currentColor; border-radius: 999px;
+  font: italic 0.95rem var(--serif); color: var(--s-accent); vertical-align: 1px;
+}
 .s-job ul { margin: 0; padding: 0; list-style: none; }
 .s-job li { position: relative; padding-left: 20px; margin-bottom: 8px; color: var(--s-dim); }
 .s-job li::before { content: ""; position: absolute; left: 0; top: 0.8em; width: 8px; height: 1px; background: var(--s-dim); }
