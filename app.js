@@ -1,6 +1,7 @@
 (function () {
   const D = window.PORTFOLIO;
   const root = document.documentElement;
+  const reduceMotionPref = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const link = (url, text) => `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text || url)}</a>`;
@@ -88,72 +89,114 @@
   // ---------- Simple mode ----------
   function renderSimple() {
     const c = D.contact;
+    const n = (i) => String(i).padStart(2, "0");
+    const sections = [
+      ["about", "About", `
+        <div class="s-prose">${D.about.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`],
+      ["experience", "Experience", `
+        <ol class="s-timeline">
+          ${D.experience.map((e) => `
+            <li class="s-job">
+              <p class="s-period">${esc(e.period)}</p>
+              <div>
+                <h3>${esc(e.role)}</h3>
+                <p class="s-company">${esc(e.company)}</p>
+                <ul>${e.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
+              </div>
+            </li>`).join("")}
+        </ol>`],
+      ["projects", "Selected projects", `
+        <div class="s-projects">
+          ${D.projects.map((p) => `
+            <article class="s-card">
+              <p class="s-stack">${esc(p.stack)}</p>
+              <h3>${esc(p.name)}</h3>
+              <p>${esc(p.summary)}</p>
+              ${p.url
+                ? `<a class="s-arrow" href="${esc(p.url)}" target="_blank" rel="noopener">View on GitHub <span aria-hidden="true">→</span></a>`
+                : `<span class="s-muted">Private repository</span>`}
+            </article>`).join("")}
+        </div>`],
+      ["writing", "Writing", `
+        <ul class="s-posts">
+          ${D.blog.posts.map((b) => `
+            <li><a href="${esc(b.url)}" target="_blank" rel="noopener">
+              <span class="s-post-title">${esc(b.title)}</span>
+              <span class="s-post-date">${esc(fmtMonth(b.date))}</span>
+            </a></li>`).join("")}
+        </ul>
+        <a class="s-arrow" href="${esc(D.blog.url)}" target="_blank" rel="noopener">All posts on Hashnode <span aria-hidden="true">→</span></a>`],
+      ["skills", "Toolkit", `
+        <dl class="s-skills">
+          ${Object.entries(D.skills).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v.map(esc).join(" · ")}</dd></div>`).join("")}
+        </dl>`],
+      ["education", "Education", `
+        <ol class="s-timeline">
+          ${D.education.map((e) => `
+            <li class="s-job">
+              <p class="s-period">${esc(e.period)}</p>
+              <div>
+                <h3>${esc(e.degree)}</h3>
+                <p class="s-company">${esc(e.school)} · ${esc(e.note)}</p>
+              </div>
+            </li>`).join("")}
+        </ol>`],
+    ];
+
     document.getElementById("simple").innerHTML = `
-      <button type="button" class="back" data-action="terminal">&gt;_ open terminal</button>
-      <header>
+      <nav class="s-nav" aria-label="Sections">
+        <a class="s-mark" href="#simple" aria-label="Top">${esc(D.name.split(" ").map((w) => w[0]).join(""))}</a>
+        <div class="s-nav-links">
+          ${[["about", "About"], ["experience", "Experience"], ["projects", "Projects"], ["writing", "Writing"]].map(([id, label]) => `<a href="#s-${id}">${label}</a>`).join("")}
+          <a href="#s-contact">Contact</a>
+        </div>
+        <button type="button" class="s-term" data-action="terminal">&gt;_ terminal</button>
+      </nav>
+
+      <header class="s-hero reveal">
+        <p class="s-eyebrow">${esc(D.role)}</p>
         <h1>${esc(D.name)}</h1>
-        <p class="role">${esc(D.role)} · ${esc(D.location)}</p>
-        <p class="tagline">${esc(D.tagline)}</p>
-        <div class="links">
-          <a href="mailto:${esc(c.email)}">Email</a>
+        <p class="s-lede">${esc(D.tagline)}</p>
+        <p class="s-loc">${esc(D.location)}</p>
+        <dl class="s-stats">
+          ${D.stats.map((st) => `<div><dt>${esc(st.value)}</dt><dd>${esc(st.label)}</dd></div>`).join("")}
+        </dl>
+      </header>
+
+      ${sections.map(([id, title, html], i) => `
+        <section id="s-${id}" class="s-section reveal">
+          <h2><span>${n(i + 1)}</span>${esc(title)}</h2>
+          <div class="s-body">${html}</div>
+        </section>`).join("")}
+
+      <section id="s-contact" class="s-contact reveal">
+        <p class="s-eyebrow">${n(sections.length + 1)} — Contact</p>
+        <h2>Let's build something reliable.</h2>
+        <a class="s-email" href="mailto:${esc(c.email)}">${esc(c.email)}</a>
+        <div class="s-links">
           ${link(c.github, "GitHub")}
           ${link(c.linkedin, "LinkedIn")}
           ${link(D.blog.url, "Blog")}
-          ${D.resume ? link(D.resume, "Résumé") : ""}
+          ${D.resume ? link(D.resume, "Résumé (PDF)") : ""}
         </div>
-      </header>
-      <section>
-        <h2>About</h2>
-        ${D.about.map((p) => `<p>${esc(p)}</p>`).join("")}
       </section>
-      <section>
-        <h2>Projects</h2>
-        ${D.projects.map((p) => `
-          <div class="item">
-            <div class="item-head">
-              <span class="item-title">${p.url ? link(p.url, p.name) : esc(p.name)}</span>
-              <span class="meta">${esc(p.stack)}${p.url ? "" : " · private repo"}</span>
-            </div>
-            <p>${esc(p.summary)}</p>
-          </div>`).join("")}
-      </section>
-      <section>
-        <h2>Writing</h2>
-        ${D.blog.posts.map((b) => `
-          <div class="item">
-            <div class="item-head">
-              <span>${link(b.url, b.title)}</span>
-              <span class="meta">${esc(fmtMonth(b.date))}</span>
-            </div>
-          </div>`).join("")}
-        <p class="more">${link(D.blog.url, "All posts →")}</p>
-      </section>
-      <section>
-        <h2>Experience</h2>
-        ${D.experience.map((e) => `
-          <div class="item">
-            <div class="item-head">
-              <span class="item-title">${esc(e.role)}, ${esc(e.company)}</span>
-              <span class="meta">${esc(e.period)}</span>
-            </div>
-            <ul>${e.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
-          </div>`).join("")}
-      </section>
-      <section>
-        <h2>Skills</h2>
-        <div class="tags">${Object.values(D.skills).flat().map((s) => `<span>${esc(s)}</span>`).join("")}</div>
-      </section>
-      <section>
-        <h2>Education</h2>
-        ${D.education.map((e) => `
-          <div class="item">
-            <div class="item-head">
-              <span class="item-title">${esc(e.degree)}</span>
-              <span class="meta">${esc(e.period)}</span>
-            </div>
-            <p class="meta">${esc(e.school)} · ${esc(e.note)}</p>
-          </div>`).join("")}
-      </section>`;
+
+      <footer class="s-footer">© ${new Date().getFullYear()} ${esc(D.name)} · ${link(D.source, "Source")}</footer>`;
+
+    // Section links scroll in-page without touching the #simple/#terminal hash.
+    document.querySelectorAll('.s-nav a[href^="#s-"], .s-mark').forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = a.classList.contains("s-mark") ? document.body : document.querySelector(a.getAttribute("href"));
+      target.scrollIntoView({ behavior: reduceMotionPref ? "auto" : "smooth" });
+    }));
+
+    // Gentle fade-in as sections enter the viewport.
+    const items = document.querySelectorAll("#simple .reveal");
+    if (reduceMotionPref || !("IntersectionObserver" in window)) { items.forEach((el) => el.classList.add("in")); return; }
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    }), { rootMargin: "0px 0px -10% 0px" });
+    items.forEach((el) => io.observe(el));
   }
 
 
