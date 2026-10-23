@@ -13,22 +13,25 @@
 
   --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --s-bg: #f6f2ea;
-  --s-card: #fbf8f2;
-  --s-fg: #1b1916;
-  --s-dim: #6b645b;
-  --s-line: #e3dccf;
-  --s-accent: #a8481f;
+  /* Simple page: GitHub light; dark mode reuses the terminal palette. */
+  --s-bg: #ffffff;
+  --s-card: #f6f8fa;
+  --s-fg: #1f2328;
+  --s-dim: #59636e;
+  --s-line: #d1d9e0;
+  --s-accent: #1a7f37;
+  --s-num: #1a7f37;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --s-bg: #14130f;
-    --s-card: #1b1a16;
-    --s-fg: #ece6dc;
-    --s-dim: #9c958a;
-    --s-line: #2c2a24;
-    --s-accent: #e3895c;
+    --s-bg: #0d1117;
+    --s-card: #161b22;
+    --s-fg: #e6edf3;
+    --s-dim: #8b949e;
+    --s-line: #30363d;
+    --s-accent: #7ee787;
+    --s-num: #7ee787;
   }
 }
 
@@ -232,6 +235,15 @@ body.term-max { overflow: hidden; }
 .s-links a { font-size: 14px; text-decoration: none; color: var(--s-dim); transition: color 0.2s; }
 .s-links a:hover { color: var(--s-fg); }
 .s-footer { text-align: center; font-size: 13px; color: var(--s-dim); padding-top: 24px; border-top: 1px solid var(--s-line); }
+
+/* Terminal-aligned details: mono labels with // comments, colored stats */
+.s-eyebrow, .s-section h2 span, .s-period, .s-post-date, .s-stack, .s-skills dt, .s-loc, .s-nav-links a, .s-footer {
+  font-family: var(--mono); letter-spacing: 0.02em;
+}
+.s-eyebrow, .s-section h2 span, .s-stack, .s-skills dt { text-transform: none; }
+.s-eyebrow::before, .s-section h2 span::before { content: "// "; }
+.s-stats dt { color: var(--s-num); }
+.s-card { border-radius: 8px; }
 
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .reveal.in { opacity: 1; transform: none; }
