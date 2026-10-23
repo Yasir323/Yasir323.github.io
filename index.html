@@ -16,12 +16,14 @@
   </script>
 </head>
 <body>
-  <button id="mode-toggle" class="mode-toggle" type="button"></button>
+  <main id="terminal" class="terminal">
+    <header id="hero" class="hero"></header>
 
-  <main id="terminal" class="terminal" aria-label="Interactive terminal">
-    <div class="term-window">
-      <div class="term-bar" aria-hidden="true">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div id="term-window" class="term-window">
+      <div class="term-bar">
+        <button type="button" class="dot dot-close" data-action="close" aria-label="Close terminal and show the simple page" title="Close terminal (show simple page)"><span aria-hidden="true">×</span></button>
+        <button type="button" class="dot dot-min" data-action="minimize" aria-label="Minimize terminal" title="Minimize"><span aria-hidden="true">−</span></button>
+        <button type="button" class="dot dot-max" data-action="maximize" aria-label="Maximize terminal" title="Maximize"><span aria-hidden="true">+</span></button>
         <span class="term-title"></span>
       </div>
       <div id="term-body" class="term-body">
@@ -32,7 +34,14 @@
         </form>
       </div>
     </div>
+
+    <p class="hint">
+      Not a terminal person? Click
+      <button type="button" class="dot dot-close dot-inline" data-action="close" aria-label="Close terminal and show the simple page"><span aria-hidden="true">×</span></button>
+      to close it and see a simple page.
+    </p>
     <nav class="quick" aria-label="Quick commands"></nav>
+    <footer id="term-footer" class="term-footer"></footer>
   </main>
 
   <main id="simple" class="simple" aria-label="Portfolio"></main>

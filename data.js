@@ -4,6 +4,13 @@ window.PORTFOLIO = {
   handle: "yasir",
   role: "Senior Software Engineer · Backend & Distributed Systems",
   location: "Delhi, India",
+  stats: [
+    { value: "5+", label: "years shipping backends" },
+    { value: "1M+", label: "users on systems I own" },
+    { value: "100K+", label: "vehicles tracked live" },
+    { value: "<100ms", label: "API latency, down from 2–3s" },
+  ],
+  source: "https://github.com/Yasir323/Yasir323.github.io",
   tagline: "I design, build, and operate high-traffic backend systems in Python and Go, on AWS.",
   about: [
     "Senior Software Engineer with 5+ years building mission-critical backend services. I've been the sole owner of greenfield platforms serving 1M+ users and 100K+ concurrent entities.",

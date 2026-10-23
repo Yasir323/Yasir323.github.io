@@ -8,24 +8,88 @@
   const fmtMonth = (iso) => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "numeric" });
 
   // ---------- Mode switching ----------
-  const toggle = document.getElementById("mode-toggle");
-
   function setMode(mode) {
     root.dataset.mode = mode;
-    toggle.textContent = mode === "terminal" ? "Simple view" : "Terminal view";
-    toggle.setAttribute("aria-label", mode === "terminal" ? "Switch to simple view" : "Switch to terminal view");
+    window.scrollTo(0, 0);
     try { localStorage.setItem("mode", mode); } catch (e) {}
     history.replaceState(null, "", "#" + mode);
     document.title = mode === "terminal" ? `${D.handle}@portfolio: ~` : `${D.name} · ${D.role}`;
     if (mode === "terminal") input.focus({ preventScroll: true });
   }
 
-  toggle.addEventListener("click", () => setMode(root.dataset.mode === "terminal" ? "simple" : "terminal"));
+  // ---------- Hero (terminal page) ----------
+  function renderHero() {
+    const c = D.contact;
+    document.getElementById("hero").innerHTML = `
+      <div>
+        <p class="hero-cmd"><span class="p">~$</span> whoami</p>
+        <h1 class="hero-name">${esc(D.name)}<span class="cursor" aria-hidden="true"></span></h1>
+        <p class="hero-role">${esc(D.role)}</p>
+        <p class="hero-meta">${esc(D.location)} · ${esc(D.tagline)}</p>
+        <nav class="hero-links" aria-label="Links">
+          ${link(c.github, "github")}
+          ${link(c.linkedin, "linkedin")}
+          ${link(D.blog.url, "blog")}
+          ${D.resume ? link(D.resume, "résumé.pdf") : ""}
+          <a href="mailto:${esc(c.email)}">email</a>
+        </nav>
+      </div>
+      <dl class="hero-stats">
+        ${D.stats.map((st) => `<div><dt>${esc(st.value)}</dt><dd>${esc(st.label)}</dd></div>`).join("")}
+      </dl>`;
+    document.getElementById("term-footer").innerHTML =
+      `© ${new Date().getFullYear()} ${esc(D.name)} · plain HTML, CSS and JS · ${link(D.source, "view source")}`;
+  }
+
+  // ---------- Window controls ----------
+  const win = document.getElementById("term-window");
+
+  function closeTerminal() {
+    win.classList.add("closing");
+    setTimeout(() => {
+      win.classList.remove("closing", "minimized", "maximized");
+      document.body.classList.remove("term-max");
+      setMode("simple");
+    }, 180);
+  }
+
+  function toggleMaximize() {
+    win.classList.remove("minimized");
+    const max = win.classList.toggle("maximized");
+    document.body.classList.toggle("term-max", max);
+    input.focus({ preventScroll: true });
+  }
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    e.stopPropagation();
+    const action = btn.dataset.action;
+    if (action === "close") closeTerminal();
+    else if (action === "minimize") {
+      win.classList.remove("maximized");
+      document.body.classList.remove("term-max");
+      win.classList.toggle("minimized");
+    } else if (action === "maximize") toggleMaximize();
+    else if (action === "terminal") setMode("terminal");
+  });
+
+  // Clicking a minimized window restores it; double-clicking the title bar maximizes, like macOS.
+  win.addEventListener("click", (e) => {
+    if (win.classList.contains("minimized") && !e.target.closest("[data-action]")) {
+      win.classList.remove("minimized");
+      input.focus({ preventScroll: true });
+    }
+  });
+  document.querySelector(".term-bar").addEventListener("dblclick", (e) => {
+    if (!e.target.closest("[data-action]")) toggleMaximize();
+  });
 
   // ---------- Simple mode ----------
   function renderSimple() {
     const c = D.contact;
     document.getElementById("simple").innerHTML = `
+      <button type="button" class="back" data-action="terminal">&gt;_ open terminal</button>
       <header>
         <h1>${esc(D.name)}</h1>
         <p class="role">${esc(D.role)} · ${esc(D.location)}</p>
@@ -387,6 +451,7 @@
   }
 
   input.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !busy && win.classList.contains("maximized")) toggleMaximize();
     if (busy && e.key !== "Enter") skipTyping = true;
     if (e.key === "ArrowUp" && hIndex > 0) {
       e.preventDefault();
@@ -427,11 +492,12 @@
   });
 
   // ---------- Boot ----------
+  renderHero();
   renderSimple();
   setMode(root.dataset.mode);
   enqueue(() => print(
-    `${span("c-green", `Welcome! I'm ${D.name}.`)} ${esc(D.tagline)}\n\n` +
+    `${span("c-green", `Welcome! I'm ${D.name}.`)} This terminal is my portfolio.\n\n` +
     `Type ${span("c-green", "help")} to see commands, or ${span("c-green", "ls")} to look around.\n` +
-    `${span("c-dim", "Not a terminal person? Use the 'Simple view' button at the top right.")}\n`
+    `${span("c-dim", "Not a terminal person? Click the red button above to close this window.")}\n`
   ));
 })();
