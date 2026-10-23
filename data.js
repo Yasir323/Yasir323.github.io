@@ -35,7 +35,7 @@ window.PORTFOLIO = {
       highlights: [
         "Architected a medallion data pipeline (Kafka, S3, Spark, Redshift) for a multi-tenant analytics platform at sub-100ms p90 query latency.",
         "Built a multi-tenant onboarding platform on AWS with RBAC, sustaining sub-200ms p90 API latency under load.",
-        "Cut the dev environment's monthly AWS cost by 55% (80K to 36K).",
+        "Cut the dev environment's monthly AWS cost by 55% (₹80K to ₹36K).",
         "Halved incident resolution time by integrating distributed traces across microservices.",
         "Set up end-to-end CI/CD and review standards across 5 projects and a 4-engineer team.",
       ],
